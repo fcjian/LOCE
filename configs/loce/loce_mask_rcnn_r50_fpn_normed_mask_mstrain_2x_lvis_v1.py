@@ -4,7 +4,7 @@ model = dict(
     roi_head=dict(
         type='LoceRoIHead',
         bbox_head=dict(
-            type='LoceShared2FCBBoxHead',  # Shared2FCBBoxClassfocalHead
+            type='LoceShared2FCBBoxHead',
             loss_cls=dict(
                 type='EquilibriumLoss', use_sigmoid=False, loss_weight=1.0),
             )
@@ -38,7 +38,6 @@ custom_hooks = [
 ]
 
 load_from = './work_dirs/mask_rcnn_r50_fpn_normed_mask_mstrain_2x_lvis_v1/epoch_24.pth'
-# load_from = './work_dirs/mask_rcnn_r50_fpn_mstrain_2x_lvis_v1_masknorm/epoch_24.pth'
 
 # Train which part, 0 for all, 1 for fc_cls, fc_reg, rpn and mask_head
 selectp = 1

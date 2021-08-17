@@ -38,7 +38,6 @@ custom_hooks = [
 ]
 
 load_from = './work_dirs/mask_rcnn_r50_fpn_normed_mask_mstrain_2x_lvis_v0.5/epoch_24.pth'
-# load_from = './work_dirs/mask_rcnn_r50_fpn_mstrain_2x_lvis_v05_masknorm/epoch_24.pth'
 
 # Train which part, 0 for all, 1 for fc_cls, fc_reg, rpn and mask_head
 selectp = 1
