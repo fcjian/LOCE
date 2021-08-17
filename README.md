@@ -62,7 +62,7 @@ If you find LOCE useful in your research, please consider citing:
 ```
 @inproceedings{feng2020tood,
     title={Exploring Classification Equilibrium in Long-Tailed Object Detection},
-    author={Feng, Chengjian and Zhong, Yujie and Huang, Welin},
+    author={Feng, Chengjian and Zhong, Yujie and Huang, Weilin},
     booktitle={ICCV},
     year={2021}
 }
