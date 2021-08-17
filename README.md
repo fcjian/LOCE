@@ -6,7 +6,7 @@ The conventional detectors tend to make imbalanced classification and suffer per
 ### Method overview
 ![method overview](resources/LOCE_demonstration.png)
 
-### Memory-augmented feature sampling (MFS)
+### Memory-augmented Feature Sampling (MFS)
 ![method overview](resources/MFS.png)
 
 ## Prerequisites
