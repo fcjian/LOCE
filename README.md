@@ -60,7 +60,7 @@ Thanks MMDetection team for the wonderful open source project!
 If you find LOCE useful in your research, please consider citing:
 
 ```
-@inproceedings{feng2020tood,
+@inproceedings{feng2021exploring,
     title={Exploring Classification Equilibrium in Long-Tailed Object Detection},
     author={Feng, Chengjian and Zhong, Yujie and Huang, Weilin},
     booktitle={ICCV},
