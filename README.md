@@ -34,7 +34,7 @@ The conventional detectors tend to make imbalanced classification and suffer per
 ## Inference
 
 ```python
-./tools/dist_test.sh configs/loce/loce_mask_rcnn_r50_fpn_normed_mask_mstrain_2x_lvis_v1.py work_dirs/loce_mask_rcnn_r50_fpn_normed_mask_mstrain_2x_lvis_v1/epoch_6.pth 4 --eval bbox segm
+./tools/dist_test.sh configs/loce/loce_mask_rcnn_r50_fpn_normed_mask_mstrain_2x_lvis_v1.py work_dirs/loce_mask_rcnn_r50_fpn_normed_mask_mstrain_2x_lvis_v1/epoch_6.pth 8 --eval bbox segm
 ```
 
 ## Models
