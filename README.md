@@ -25,10 +25,10 @@ The conventional detectors tend to make imbalanced classification and suffer per
 # use decoupled training pipeline:
 
 # 1. train the model with Mask R-CNN
-./tools/dist_train.sh configs/loce/mask_rcnn_r50_fpn_normed_mask_mstrain_2x_lvis_v1.py 4
+./tools/dist_train.sh configs/loce/mask_rcnn_r50_fpn_normed_mask_mstrain_2x_lvis_v1.py 8
 
 # 2. fine-tune the model with LOCE
-./tools/dist_train.sh configs/loce/loce_mask_rcnn_r50_fpn_normed_mask_mstrain_2x_lvis_v1.py 4
+./tools/dist_train.sh configs/loce/loce_mask_rcnn_r50_fpn_normed_mask_mstrain_2x_lvis_v1.py 8
 ```
 
 ## Inference
