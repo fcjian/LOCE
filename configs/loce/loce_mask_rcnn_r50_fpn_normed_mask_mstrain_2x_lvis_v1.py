@@ -11,6 +11,8 @@ model = dict(
     ),
     train_cfg=dict(
         rcnn=dict(
+            alpha=0.9,
+            bg_score=0.01,
             mfs=dict(
                 queue_size=80,
                 gpu_statictics=False,

@@ -29,7 +29,9 @@ class LoceRoIHead(BaseRoIHead, BBoxTestMixin, MaskTestMixin):
         self.bbox_roi_extractor = build_roi_extractor(bbox_roi_extractor)
         self.bbox_head = build_head(bbox_head)
         if self.train_cfg:
-            # for EBL and MFS
+            # mean score for EBL and MFS
+            self.alpha=self.train_cfg.alpha
+            self.bg_score=self.train_cfg.bg_score
             self.mean_score = torch.ones(self.bbox_head.num_classes + 1).cuda() * 0.01
 
             # for MFS
@@ -210,12 +212,15 @@ class LoceRoIHead(BaseRoIHead, BBoxTestMixin, MaskTestMixin):
         batch_gt_labels = []
         batch_mean_scores = []
         for img_ind, sampling_results_img in enumerate(sampling_results):
-            for gt_ind, gt_label in enumerate(gt_labels[img_ind]):
-                if (sampling_results_img.pos_assigned_gt_inds == gt_ind).sum() > 0:
-                    score = scores[self.bbox_sampler.num * img_ind:self.bbox_sampler.num * img_ind + len(sampling_results_img.pos_assigned_gt_inds),
-                        gt_label][sampling_results_img.pos_assigned_gt_inds == gt_ind]
-                    batch_gt_labels.append(gt_label.unsqueeze(0))
-                    batch_mean_scores.append(score.mean().unsqueeze(0))
+            try:
+                for gt_ind, gt_label in enumerate(gt_labels[img_ind]):
+                    if (sampling_results_img.pos_assigned_gt_inds == gt_ind).sum() > 0:
+                        score = scores[self.bbox_sampler.num * img_ind:self.bbox_sampler.num * img_ind + len(sampling_results_img.pos_assigned_gt_inds),
+                            gt_label][sampling_results_img.pos_assigned_gt_inds == gt_ind]
+                        batch_gt_labels.append(gt_label.unsqueeze(0))
+                        batch_mean_scores.append(score.mean().unsqueeze(0))
+            except:
+                print(gt_labels)
 
         # batch mean score for selected queue samples
         selected_length = len(selected_labels)
@@ -258,8 +263,8 @@ class LoceRoIHead(BaseRoIHead, BBoxTestMixin, MaskTestMixin):
             rank = -1
 
         # for memory-augmented feature sampling
-        bbox_feats, gt_labels, reg_targets = self._get_feat_for_memory(x, gt_bboxes, gt_labels, img_metas)
-        self.mfs.enqueue_dequeue(bbox_feats, gt_labels, reg_targets)
+        bbox_feats_for_memory, gt_labels_for_memory, reg_targets_for_memory = self._get_feat_for_memory(x, gt_bboxes, gt_labels, img_metas)
+        self.mfs.enqueue_dequeue(bbox_feats_for_memory, gt_labels_for_memory, reg_targets_for_memory)
         selectd_bbox_feat, selectd_labels, selectd_reg_targets, selectd_cls_weight, selectd_reg_weight = \
                         self.mfs.probabilistic_sampler(self.mean_score)
 
@@ -282,7 +287,7 @@ class LoceRoIHead(BaseRoIHead, BBoxTestMixin, MaskTestMixin):
         bbox_targets_all.append(torch.cat([bbox_targets[3], selectd_reg_weight]))
 
         # update mean score
-        self._update_mean_score(bbox_results['cls_score'], sampling_results, gt_labels, selectd_labels, rank, alpha=0.9, bg_score=0.01)
+        self._update_mean_score(bbox_results['cls_score'], sampling_results, gt_labels, selectd_labels, rank, alpha=self.alpha, bg_score=self.bg_score)
 
         loss_bbox = self.bbox_head.loss(bbox_results['cls_score'],
                                         bbox_results['bbox_pred'], rois,
