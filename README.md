@@ -1,4 +1,5 @@
 # Exploring Classification Equilibrium in Long-Tailed Object Detection (LOCE, ICCV 2021)
+[Paper](https://arxiv.org/abs/2108.07507)
 
 ## Introduction
 
