@@ -203,11 +203,6 @@ class LoceRoIHead(BaseRoIHead, BBoxTestMixin, MaskTestMixin):
 
         return bbox_feats, gt_labels, reg_targets
 
-    def _update_feat_memory(self, x, gt_bboxes, gt_labels, img_metas):
-        # for MFS
-        bbox_feats, gt_labels, reg_targets = self._get_feat_for_memory(x, gt_bboxes, gt_labels, img_metas)
-        self.mfs.enqueue_dequeue(bbox_feats, gt_labels, reg_targets)
-
     def _compute_batch_mean_score(self, cls_score, sampling_results, gt_labels, selected_labels):
         # batch mean score for current sample (non queue sampling samples)
         # here have not to compute mean score which is computed after dist collection
@@ -263,7 +258,8 @@ class LoceRoIHead(BaseRoIHead, BBoxTestMixin, MaskTestMixin):
             rank = -1
 
         # for memory-augmented feature sampling
-        self._update_feat_memory(x, gt_bboxes, gt_labels, img_metas)
+        bbox_feats, gt_labels, reg_targets = self._get_feat_for_memory(x, gt_bboxes, gt_labels, img_metas)
+        self.mfs.enqueue_dequeue(bbox_feats, gt_labels, reg_targets)
         selectd_bbox_feat, selectd_labels, selectd_reg_targets, selectd_cls_weight, selectd_reg_weight = \
                         self.mfs.probabilistic_sampler(self.mean_score)
 
