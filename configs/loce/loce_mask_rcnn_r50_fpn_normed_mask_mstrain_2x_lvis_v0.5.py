@@ -32,8 +32,7 @@ lr_config = dict(
     step=[3, 5])
 total_epochs = 6
 
-# custon hooks
-# "InitializerHook" is defined in "mmdet/core/utils/initializer_hook.py"
+# custon hooks: InitializerHook is defined in mmdet/core/utils/initializer_hook.py
 custom_hooks = [
     dict(type="InitializerHook")
 ]
