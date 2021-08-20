@@ -27,8 +27,7 @@ class DistributedBalancedSampler(_DistributedSampler):
             assert len(indices) == self.total_size
 
             # subsample
-            # indices = indices[self.rank:self.total_size:self.num_replicas]
-            indices = indices[self.rank * self.num_samples:self.rank * self.num_samples + self.num_samples]
+            indices = indices[self.rank:self.total_size:self.num_replicas]
             assert len(indices) == self.num_samples
 
             indices_all_classes += indices
